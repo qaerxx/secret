@@ -8,16 +8,58 @@
     <meta name="description" content="Collecting this wasn't easy — your star is my motivation to keep going! Contributions are welcome too.">
     <link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/sun0225SUN/photos/img/20210715233345.png">
     <link rel="stylesheet" href="css/love.css">
+    <style>
+        /* Overlay styles */
+        #overlay {
+            position: fixed;
+            z-index: 9999;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            font-size: 2rem;
+            transition: opacity 0.5s;
+        }
+        #overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #start-btn {
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background: #ff69b4;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #start-btn:hover {
+            background: #ff1493;
+        }
+        body.lock-scroll {
+            overflow: hidden;
+        }
+    </style>
 </head>
 
+<body class="lock-scroll">
 
-<body>
+    <!-- Overlay for start -->
+    <div id="overlay">
+        <div>Nhấn vào màn hình nhé 💖</div>
+        <button id="start-btn">Let's go!!!</button>
+    </div>
 
-    <audio autoplay loop id="audios" preload="auto" controls>
-    <source src="MP3/1.mp3" type="audio/mpeg" />
+    <audio loop id="audios" preload="auto">
+        <source src="MP3/1.mp3" type="audio/mpeg" />
     </audio>
 
-    <div class="container" onselectstart="return false;" unselectable="on" style="-moz-user-select:none;">
+    <div class="container" onselectstart="return false;" unselectable="on" style="-moz-user-select:none; display:none;" id="main-content">
 
         <div class="body_left">
             <img src="images/biubiubiu.gif" alt="" ondragstart='return false;'>
@@ -33,7 +75,7 @@
         </div>
     </div>
 
-    <div class="footer">
+    <div class="footer" style="display:none;" id="main-footer">
         <div class="border">
             <div class="border-top"></div>
             <div class="border-bottom"></div>
@@ -41,7 +83,24 @@
     </div>
 
     <script type="text/javascript" src="js/love.js"></script>
-
+    <script>
+        // Khi người dùng nhấn nút bắt đầu
+        document.getElementById('start-btn').onclick = function() {
+            // Ẩn overlay
+            document.getElementById('overlay').classList.add('hide');
+            setTimeout(function() {
+                document.getElementById('overlay').style.display = 'none';
+                document.body.classList.remove('lock-scroll');
+                // Hiện nội dung chính
+                document.getElementById('main-content').style.display = '';
+                document.getElementById('main-footer').style.display = '';
+            }, 500);
+            // Phát nhạc
+            document.getElementById('audios').play();
+        };
+        // Ẩn nội dung chính ban đầu
+        document.getElementById('main-content').style.display = 'none';
+        document.getElementById('main-footer').style.display = 'none';
+    </script>
 </body>
-
 </html>
